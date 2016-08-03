@@ -1,0 +1,58 @@
+<!--
+    This file is for internal development testing and debugging only.
+    There is no guarantee any code on this page makes sense or works
+    correctly! :D
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-2.0.3.js"></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Test</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            (function addXhrProgressEvent($) {
+                var originalXhr = $.ajaxSettings.xhr;
+                $.ajaxSetup({
+                    test: function () {
+                        console.log("standard progress callback");
+                    },
+                    xhr: function () {
+                        var req = originalXhr();
+                        var self = this;
+
+                        if (req) {
+                            if (typeof req.addEventListener == "function") {
+
+                                req.addEventListener("progress", function (evt) {
+                                    self.test(evt);
+                                }, false);
+                            }
+                        }
+
+                        return req;
+                    }
+                });
+            })(jQuery);
+
+
+            $.ajax({
+                url: "https://jsonplaceholder.typicode.com/",
+                test: function () {
+                    console.log("test");
+                },
+                test: function () {
+                    console.log("test");
+                }
+            }).done(function () {
+                console.log("done")
+            }).done(function () {
+                console.log("done")
+            });
+
+        </script>
+    </body>
+</html>

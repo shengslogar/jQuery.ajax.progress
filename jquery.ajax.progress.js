@@ -7,7 +7,6 @@
  */
 
 (function ($) {
-
     // clone existing $.ajax function
     var _ajax = $.ajax;
 
@@ -32,6 +31,15 @@
 
         // upload progress queue
         var uploadProgressFuncs = [];
+
+        // allow param functions as well
+        if (params.downloadProgress)
+            downloadProgressFuncs.push(params.downloadProgress);
+        if (params.progress)
+            downloadProgressFuncs.push(params.progress);
+
+        if (params.uploadProgress)
+            uploadProgressFuncs.push(params.uploadProgress);
 
         // extend $.ajax.xhr
         params.xhr = function () {
